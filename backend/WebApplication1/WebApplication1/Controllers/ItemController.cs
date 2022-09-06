@@ -56,11 +56,5 @@ namespace WebApplication1.Controllers
             _repository.deleteItemByName(itemName);
             return Ok(200);
         }
-
-
-
     }
-
-
-
 }
