@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Reflection;
+using System.Text.Json.Nodes;
 using WebApplication1.models;
 using WebApplication1.Repositories;
 
@@ -11,6 +14,17 @@ namespace WebApplication1.Controllers
     {
         private readonly ItemRepo _repository = new ItemRepo();
 
+        [HttpPost]
+        public ActionResult<Item> CreateItem(CreateItemModel item)
+        {
+            var itemCreated = _repository.CreateItem(item);
+            if (itemCreated != null) 
+                return Created($"~items/{itemCreated.Name}", itemCreated); ;
+
+            return BadRequest();
+        }
+
+
         [HttpGet]
         public ActionResult<IEnumerable<Item>> GetAllItems()
         {
@@ -18,11 +32,33 @@ namespace WebApplication1.Controllers
 
             return Ok(items);
         }
-        //[HttpGet("{id}")]
-        //public ActionResult<Item> GetItemById(int id)
+        //[HttpGet("{itemName}")]
+        //public ActionResult<Item> GetItemById(String itemName)
         //{
+        //    var item = _repository.getItemById(itemName);
+
+        //    return Ok(item);
 
         //}
+
+        [HttpPut("{itemName}")]
+        public  ActionResult<Item> UpdateItem(UpdateItemModel item)
+        {
+            
+            return Ok();
+
+            //return Created($"~items/{itemUpdated.Name}", itemUpdated);
+        }
+
+        [HttpDelete("{itemName}")]
+        public ActionResult<int> DeleteItemByName(string itemName)
+        {
+            _repository.deleteItemByName(itemName);
+            return Ok(200);
+        }
+
+
+
     }
 
 

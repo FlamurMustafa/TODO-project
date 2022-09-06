@@ -2,11 +2,12 @@
 
 namespace WebApplication1.Repositories
 {
-    public interface ITodoList
-    {
-        IEnumerable<Item> getItems();
-        Item getItemById(int id);
+    public interface ITodoList {
 
+        public CreateItemModel CreateItem(CreateItemModel item);
+        public IEnumerable<Item> getItems();
+        public int deleteItemByName(string itemName);
+        public Item UpdateItem(Item item);
 
     }
 }
