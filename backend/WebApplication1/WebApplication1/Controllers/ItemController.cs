@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
         private readonly ItemRepo _repository = new ItemRepo();
 
         [HttpPost]
-        public ActionResult<Item> CreateItem(CreateItemModel item)
+        public ActionResult<Item> CreateItem([FromBody]CreateItemModel item)
         {
             var itemCreated = _repository.CreateItem(item);
             if (itemCreated != null) 
@@ -42,12 +42,11 @@ namespace WebApplication1.Controllers
         //}
 
         [HttpPut("{itemName}")]
-        public  ActionResult<Item> UpdateItem(UpdateItemModel item)
+        public  ActionResult UpdateItem([FromBody] Item item, string itemName)
         {
-            
-            return Ok();
-
-            //return Created($"~items/{itemUpdated.Name}", itemUpdated);
+            int rows = _repository.UpdateItem(item, itemName);
+            if (rows == 1) return NoContent();
+            else return NotFound();
         }
 
         [HttpDelete("{itemName}")]

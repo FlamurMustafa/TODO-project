@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Extensions.WebEncoders.Testing;
+using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Nodes;
 using WebApplication1.models;
@@ -68,22 +69,26 @@ namespace WebApplication1.Repositories
             return numbersOfRows;
         }
 
-        public Item UpdateItem(Item item)
+        public int UpdateItem(Item item, String itemName)
         {
-            deleteItemByName(item.Name);
-            string queryString = $"insert into todolist(name, description, completed, createdtime) values('{item.Name}', '{item.Description}', {0}, '{item.DateCreated}');";
+            string selectQuery = $"Select * from todolist where name='{itemName}'";
+            int idToBeUpdated;
+            SqlCommand selectCommand = new SqlCommand(selectQuery, connection);
+            SqlDataReader selectReader = selectCommand.ExecuteReader();
+            selectReader.Read();
+            try { 
+            idToBeUpdated = selectReader.GetInt32(0);
+            selectReader.Close();
+            } catch (Exception e)
+            {
+                return 0;
+            }
+            string queryString = $"update todolist set name ='{item.Name}', description='{item.Description}', completed={item.Completed}, createdTime='{item.DateCreated}' where id="+ idToBeUpdated+";";
+
             SqlCommand command = new SqlCommand(queryString, connection);
-            SqlDataReader reader = command.ExecuteReader();
+            var affectedRows = command.ExecuteNonQuery();
 
-            reader.Read();
-            var id = reader.GetInt32(0);
-            var name = reader.GetString(1);
-            var desc = reader.GetString(2);
-            var finished = int.Parse(reader.GetString(3));
-            var created = reader.GetDateTime(4);
-
-            return new Item(id, name, desc, finished, created);
-
+            return affectedRows;
         }
     }
     

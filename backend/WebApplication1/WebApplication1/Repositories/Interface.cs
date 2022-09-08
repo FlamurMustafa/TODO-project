@@ -7,7 +7,7 @@ namespace WebApplication1.Repositories
         public CreateItemModel CreateItem(CreateItemModel item);
         public IEnumerable<Item> getItems();
         public int deleteItemByName(string itemName);
-        public Item UpdateItem(Item item);
+        public int UpdateItem(Item item, string itemName);
 
     }
 }

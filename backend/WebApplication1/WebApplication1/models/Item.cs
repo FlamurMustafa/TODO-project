@@ -1,7 +1,9 @@
 ﻿namespace WebApplication1.models
 {
-    public record Item
+    public class Item
     {
+
+        public Item() { }
         
 
         public Item(int v1, string v2, string v3, int v4, DateTime dateTime)
