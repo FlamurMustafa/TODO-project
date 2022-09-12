@@ -7,7 +7,7 @@ function Row(props){
     }
     
     const editBttnClicked = (event) =>{
-        props.editFun(props.name, props.description);
+        props.editFun(props.id);
     }
 
 return(

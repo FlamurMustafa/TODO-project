@@ -69,9 +69,9 @@ namespace WebApplication1.Repositories
             return numbersOfRows;
         }
 
-        public int UpdateItem(Item item, String itemName)
+        public int UpdateItem(CreateItemModel item, int itemId)
         {
-            string selectQuery = $"Select * from todolist where name='{itemName}'";
+            string selectQuery = $"Select * from todolist where id='{itemId}'";
             int idToBeUpdated;
             SqlCommand selectCommand = new SqlCommand(selectQuery, connection);
             SqlDataReader selectReader = selectCommand.ExecuteReader();
@@ -83,7 +83,7 @@ namespace WebApplication1.Repositories
             {
                 return 0;
             }
-            string queryString = $"update todolist set name ='{item.Name}', description='{item.Description}', completed={item.Completed}, createdTime='{item.DateCreated}' where id="+ idToBeUpdated+";";
+            string queryString = $"update todolist set name ='{item.Name}', description='{item.Description}' where id="+ idToBeUpdated+";";
 
             SqlCommand command = new SqlCommand(queryString, connection);
             var affectedRows = command.ExecuteNonQuery();

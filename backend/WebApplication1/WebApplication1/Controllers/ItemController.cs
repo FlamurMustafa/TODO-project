@@ -41,10 +41,10 @@ namespace WebApplication1.Controllers
 
         //}
 
-        [HttpPut("{itemName}")]
-        public  ActionResult UpdateItem([FromBody] Item item, string itemName)
+        [HttpPut("{itemId}")]
+        public  ActionResult UpdateItem([FromBody] CreateItemModel item, int itemId)
         {
-            int rows = _repository.UpdateItem(item, itemName);
+            int rows = _repository.UpdateItem(item, itemId);
             if (rows == 1) return NoContent();
             else return NotFound();
         }
